@@ -1,5 +1,7 @@
 package com.sistema.bancario.service;
 
+import com.sistema.bancario.DTO.RequestUserDTO;
+import com.sistema.bancario.DTO.ResponseUserDTO;
 import com.sistema.bancario.entities.User;
 import com.sistema.bancario.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,13 +53,34 @@ public class UserService {
 
             return repository.save(user);
         }catch (RuntimeException e){
-            throw new RuntimeException("erro ao atualizar o usuário"+e.getMessage());
+            throw new RuntimeException("erro ao atualizar o usuário"+ e.getMessage());
         }
     }
 
-    public void updateDate(User user, User newUser){
+    private void updateDate(User user, User newUser){
         user.setName(newUser.getName());
         user.setEmail(newUser.getEmail());
     }
+
+    private User toEntity(RequestUserDTO obj){
+        User user = new User();
+
+        user.setName(obj.name());
+        user.setEmail(obj.email());
+        user.setPhone(obj.phone());
+        user.setPassword(obj.password());
+
+        return user;
+    }
+
+    private ResponseUserDTO toDTO(User user){
+        return  new ResponseUserDTO(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getPhone()
+        );
+    }
+
 
 }
