@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -21,9 +20,10 @@ public class UserService {
         return repository.findAll();
     }
 
-    public User findById(long id){
-        Optional<User> obj = repository.findById(id);
-        return obj.orElseThrow(() -> new RuntimeException("Usuário não encontrado com o ID: " + id));
+    public ResponseUserDTO findById(long id){
+        User user = repository.findById(id).orElseThrow(() -> new RuntimeException(
+                "Usuário não encontrado com o ID: " + id));;
+        return toDTO(user);
     }
 
         public void deleteById(long id){
@@ -37,30 +37,37 @@ public class UserService {
         }
     }
 
-    public User insert(User user) {
+    public ResponseUserDTO insert(RequestUserDTO dto) {
         try {
-            return repository.save(user);
+            User user = toEntity(dto);
+            User userSave = repository.save(user);
+
+            return toDTO(userSave);
+
         } catch (RuntimeException e) {
             throw new RuntimeException("Erro ao inserir o usuário: " + e.getMessage());
         }
     }
 
-    public User update(long id, User updateDate){
+    public ResponseUserDTO update(long id, RequestUserDTO updateDate){
         try {
             User user = repository.findById(id).orElseThrow(() -> new RuntimeException("usuário não encontrado"));
 
-            updateDate(user, updateDate);
+            updateData(user, updateDate);
 
-            return repository.save(user);
+            return toDTO(user);
         }catch (RuntimeException e){
             throw new RuntimeException("erro ao atualizar o usuário"+ e.getMessage());
         }
     }
 
-    private void updateDate(User user, User newUser){
-        user.setName(newUser.getName());
-        user.setEmail(newUser.getEmail());
+    private void updateData(User user, RequestUserDTO newUser){
+        user.setName(newUser.name());
+        user.setEmail(newUser.email());
+        user.setPhone(newUser.phone());
+        user.setPassword(newUser.password());
     }
+
 
     private User toEntity(RequestUserDTO obj){
         User user = new User();
