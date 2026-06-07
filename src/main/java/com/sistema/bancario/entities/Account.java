@@ -13,15 +13,17 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "db_account")
+@Table(name = "tb_account")
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal saldo;
-    private Long numeroConta;
+    private BigDecimal saldo = BigDecimal.ZERO;
+
+    @Column(unique = true)
+    private String numeroConta;
 
     @OneToOne
     @JoinColumn(name = "user_id")
