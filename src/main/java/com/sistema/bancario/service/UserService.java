@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Nodes.collect;
 
 @Service
 public class UserService {
@@ -16,8 +19,9 @@ public class UserService {
     private UserRepository repository;
 
 
-    public List<User> findAll(){
-        return repository.findAll();
+    public List<ResponseUserDTO> findAll(){
+        List<User> list = repository.findAll();
+        return list.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public ResponseUserDTO findById(long id){

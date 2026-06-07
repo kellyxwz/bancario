@@ -1,5 +1,6 @@
 package com.sistema.bancario.controller;
 
+import com.sistema.bancario.DTO.ResponseUserDTO;
 import com.sistema.bancario.entities.User;
 import com.sistema.bancario.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ public class UserController {
     private UserService service;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll(){
-        List<User> list = service.findAll();
+    public ResponseEntity<List<ResponseUserDTO>> findAll(){
+        List<ResponseUserDTO> list = service.findAll();
         return ResponseEntity.ok(list);
     }
 
