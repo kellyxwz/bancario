@@ -20,7 +20,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal saldo = BigDecimal.ZERO;
+    private BigDecimal saldo;
 
     @Column(unique = true)
     private String numeroConta;
