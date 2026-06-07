@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -32,6 +31,18 @@ public class UserController {
     public ResponseEntity<Void> deleteById(@PathVariable long id){
         service.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping()
+    public ResponseEntity<User> insert(@RequestBody User user){
+        User entity = service.insert(user);
+        return ResponseEntity.ok().body(entity);
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<User> upadate(@PathVariable long id, @RequestBody User user){
+        User entity = service.update(id, user);
+        return ResponseEntity.ok().body(entity);
     }
 
 }

@@ -1,15 +1,14 @@
 package com.sistema.bancario.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "db_user")
-@Data
 @NoArgsConstructor//constructor padre
 @AllArgsConstructor//constructor complete parameters
 public class User implements Serializable {
@@ -21,6 +20,8 @@ public class User implements Serializable {
 
  private String name;
  private String email;
+ private Long phone;
+ private String password;
 
 
 }
