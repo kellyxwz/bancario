@@ -1,5 +1,6 @@
 package com.sistema.bancario.entities;
 
+import com.sistema.bancario.entities.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,9 +19,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal deposit;
-    private BigDecimal transfer;
-    private BigDecimal withdrawal;
+    private BigDecimal balance
 
     @ManyToOne
     private Account account;
