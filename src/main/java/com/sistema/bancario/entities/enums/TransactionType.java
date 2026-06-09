@@ -4,8 +4,17 @@ import java.math.BigDecimal;
 
 public enum TransactionType {
 
-    DEPOSIT,
-    TRANSFER,
-    WITHDRAWAL;
+    DEPOSIT("deposit"),
+    TRANSFER("user"),
+    WITHDRAWAL("withdrawl");
 
+    private String transaction;
+
+    TransactionType(String transaction) {
+        this.transaction = transaction;
+    }
+
+    public String getTransaction() {
+        return transaction;
+    }
 }
