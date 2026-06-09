@@ -2,8 +2,13 @@ package com.sistema.bancario.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.jspecify.annotations.Nullable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,7 +17,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "tb_account")
 @EqualsAndHashCode(of = "id")
-public class Account {
+public class Account implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
