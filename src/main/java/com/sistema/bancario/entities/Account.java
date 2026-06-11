@@ -32,4 +32,18 @@ public class Account implements UserDetails {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public @Nullable String getPassword() {
+        return "";
+    }
+
+    @Override
+    public String getUsername() {
+        return "";
+    }
 }
