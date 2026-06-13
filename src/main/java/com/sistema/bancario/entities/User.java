@@ -29,6 +29,11 @@ public class User implements UserDetails {
  @NonNull
  private String password;
 
+ public User(String email, @NonNull String password) {
+  this.email = email;
+  this.password = password;
+ }
+
  @Override
  public Collection<? extends GrantedAuthority> getAuthorities() {
   return List.of(new SimpleGrantedAuthority("ROLE_CLIENT"));

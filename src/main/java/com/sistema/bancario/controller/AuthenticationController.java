@@ -34,11 +34,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register (@RequestBody @Valid RegisterDTO data){
-        if(this.repository.findByEmail(data.login()) != null){
+    public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
+        if (this.repository.findByEmail(data.login()) != null ){
             return ResponseEntity.badRequest().build();
         }
+
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User user = new User(data.login(), encryptedPassword, data.role());
+        User newUser = new User(data.login(), encryptedPassword);
+        this.repository.save(newUser);
+
+        return ResponseEntity.ok().build();
     }
 }
