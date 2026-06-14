@@ -1,6 +1,6 @@
 package com.sistema.bancario.controller;
 
-import com.sistema.bancario.DTO.AccountResponseDTO;
+import com.sistema.bancario.DTO.Response.AccountResponseDTO;
 import com.sistema.bancario.service.AccountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

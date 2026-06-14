@@ -1,7 +1,7 @@
 package com.sistema.bancario.controller;
 
 import com.sistema.bancario.DTO.AuthenticationDTO;
-import com.sistema.bancario.DTO.LoginResponseDTO;
+import com.sistema.bancario.DTO.Response.LoginResponseDTO;
 import com.sistema.bancario.DTO.RegisterDTO;
 import com.sistema.bancario.entities.User;
 import com.sistema.bancario.repository.UserRepository;

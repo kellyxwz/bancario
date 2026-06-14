@@ -1,6 +1,6 @@
 package com.sistema.bancario.service;
 
-import com.sistema.bancario.DTO.AccountResponseDTO;
+import com.sistema.bancario.DTO.Response.AccountResponseDTO;
 import com.sistema.bancario.entities.Account;
 import com.sistema.bancario.entities.User;
 import com.sistema.bancario.repository.AccountRepository;

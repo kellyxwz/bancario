@@ -1,4 +1,4 @@
-package com.sistema.bancario.DTO;
+package com.sistema.bancario.DTO.Response;
 
 public record ResponseUserDTO(
         Long id,

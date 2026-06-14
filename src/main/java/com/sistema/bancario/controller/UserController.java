@@ -1,7 +1,7 @@
 package com.sistema.bancario.controller;
 
-import com.sistema.bancario.DTO.RequestUserDTO;
-import com.sistema.bancario.DTO.ResponseUserDTO;
+import com.sistema.bancario.DTO.Request.RequestUserDTO;
+import com.sistema.bancario.DTO.Response.ResponseUserDTO;
 import com.sistema.bancario.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

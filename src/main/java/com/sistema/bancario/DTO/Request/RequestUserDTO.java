@@ -1,4 +1,4 @@
-package com.sistema.bancario.DTO;
+package com.sistema.bancario.DTO.Request;
 
 public record RequestUserDTO(
         String name,
