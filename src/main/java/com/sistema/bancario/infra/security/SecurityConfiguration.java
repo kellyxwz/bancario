@@ -18,14 +18,14 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     @Bean
-   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity){
+   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
        return httpSecurity.csrf(csrf -> csrf.disable())
                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                .authorizeHttpRequests(authorize -> authorize
-                       .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                       .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                        .requestMatchers(HttpMethod.GET, "/users/**").permitAll()
                        .requestMatchers(HttpMethod.PUT, "/useer/**").hasRole("CLIENT")
-                       .requestMatchers(HttpMethod.DELETE, "/users").hasRole("CLIENT")
+                       .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("CLIENT")
                        .anyRequest().authenticated()
                )
                .build();
