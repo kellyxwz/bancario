@@ -1,9 +1,11 @@
 package com.sistema.bancario.controller;
 
 import com.sistema.bancario.DTO.AuthenticationDTO;
+import com.sistema.bancario.DTO.LoginResponseDTO;
 import com.sistema.bancario.DTO.RegisterDTO;
 import com.sistema.bancario.entities.User;
 import com.sistema.bancario.repository.UserRepository;
+import com.sistema.bancario.infra.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,20 +18,24 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     private final UserRepository repository;
-
+    private final TokenService service;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationController(UserRepository repository, AuthenticationManager authenticationManager) {
+    public AuthenticationController(UserRepository repository, TokenService service, AuthenticationManager authenticationManager) {
         this.repository = repository;
+        this.service = service;
         this.authenticationManager = authenticationManager;
     }
+
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
         var username = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = authenticationManager.authenticate(username);
 
-        return ResponseEntity.ok().build();
+        var token = service.generateToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
 
     }
 
