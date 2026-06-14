@@ -23,7 +23,7 @@ public class Account implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal saldo;
+    private BigDecimal balance;
 
     @Column(unique = true)
     private String numeroConta;

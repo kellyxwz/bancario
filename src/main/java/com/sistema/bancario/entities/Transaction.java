@@ -19,11 +19,10 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal balance;
+    private BigDecimal value;
+    private TransactionType transactionType;
 
     @ManyToOne
     private Account account;
-
-    private TransactionType transactionType;
 
 }

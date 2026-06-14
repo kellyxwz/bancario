@@ -1,12 +1,10 @@
 package com.sistema.bancario.entities.enums;
 
-import java.math.BigDecimal;
-
 public enum TransactionType {
 
-    DEPOSIT("deposit"),
-    TRANSFER("user"),
-    WITHDRAWAL("withdrawl");
+    DEPOSIT("Depósito"),
+    WITHDRAWAL("Saque"),
+    TRANSFER("Transferência");
 
     private String transaction;
 
