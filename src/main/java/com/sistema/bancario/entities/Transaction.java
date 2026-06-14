@@ -23,4 +23,7 @@ public class Transaction {
 
     @ManyToOne
     private Account account;
+
+    private TransactionType transactionType;
+
 }
