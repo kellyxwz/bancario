@@ -29,10 +29,14 @@ public class SecurityConfiguration {
        return httpSecurity.csrf(csrf -> csrf.disable())
                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                .authorizeHttpRequests(authorize -> authorize
-                       .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                       .requestMatchers(HttpMethod.GET, "/users/**").permitAll()
-                       .requestMatchers(HttpMethod.PUT, "/useer/**").hasRole("CLIENT")
+                       .requestMatchers(HttpMethod.POST, "/auth/login").hasRole("CLIENT")
+                       .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+
+                       .requestMatchers(HttpMethod.GET, "/users").authenticated()
+                       .requestMatchers(HttpMethod.GET, "/users/**").authenticated()
+                       .requestMatchers(HttpMethod.PUT, "/users/**").hasRole("CLIENT")
                        .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("CLIENT")
+
                        .anyRequest().authenticated()
                )
                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
