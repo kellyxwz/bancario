@@ -7,4 +7,5 @@ public record AccountResponseDTO(
         BigDecimal saldo,
         String numeroConta
 ) {
+
 }
