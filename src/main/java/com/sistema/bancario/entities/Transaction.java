@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -20,6 +21,10 @@ public class Transaction {
     private Long id;
 
     private BigDecimal value;
+
+    private Instant createdAt;
+
+    @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
     @ManyToOne

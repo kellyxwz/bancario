@@ -21,7 +21,7 @@ public record TransactionResponseDTO(
                 transaction.getTransactionType(),
                 transaction.getCreatedAt(),
                 transaction.getAccount().getNumeroConta(),
-                transaction.getAccount().getSaldo()
+                transaction.getAccount().getBalance()
         );
     }
 }
