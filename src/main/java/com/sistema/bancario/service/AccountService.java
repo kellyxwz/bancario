@@ -14,7 +14,6 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class AccountService {
 
-    @Autowired
     private AccountRepository accountRepository;
 
     @Autowired
@@ -30,26 +29,18 @@ public class AccountService {
         Account account = new Account();
 
         account.setUser(user);
-        account.setSaldo(BigDecimal.ZERO);
+        account.setBalance(BigDecimal.ZERO);
         account.setNumeroConta(generateAccountNumber());
 
         Account savedAccount = accountRepository.save(account);
 
-        return new AccountResponseDTO(
-                savedAccount.getId(),
-                savedAccount.getSaldo(),
-                savedAccount.getNumeroConta()
-        );
+        return new AccountResponseDTO(savedAccount);
     }
 
     public AccountResponseDTO findById(long id){
         Account account = accountRepository.findById(id).orElseThrow(()-> new RuntimeException("conta não encontrado"));
 
-        return new AccountResponseDTO(
-                account.getId(),
-                account.getSaldo(),
-                account.getNumeroConta()
-        );
+        return new AccountResponseDTO(account );
     }
 
     private String generateAccountNumber() {
