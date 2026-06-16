@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 
 public record AccountResponseDTO(
         Long id,
-        BigDecimal saldo,
+        BigDecimal balance,
         String numeroConta
 ) {
+
 
 }
