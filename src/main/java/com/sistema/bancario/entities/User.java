@@ -16,55 +16,26 @@ import java.util.List;
 @NoArgsConstructor//constructor padre
 @AllArgsConstructor//constructor complete parameters
 @EqualsAndHashCode(of = "id")
-public class User implements UserDetails {
+public class User {
 
  @Id
  @GeneratedValue(strategy = GenerationType.IDENTITY)
  private Long id;
 
- @NonNull
+ @Column(nullable = false, length = 150)
  private String name;
+
+ @Column(nullable = false)
  private String email;
  private Long phone;
- @NonNull
+
+ @Column(nullable = false, unique = true)
  private String password;
 
  public User(String email, @NonNull String password) {
   this.email = email;
   this.password = password;
  }
-
- @Override
- public Collection<? extends GrantedAuthority> getAuthorities() {
-  return List.of(new SimpleGrantedAuthority("ROLE_CLIENT"));
- }
-
- @Override
- public String getPassword() {
-  return this.password;
- }
-
- @Override
- public String getUsername() {
-  return this.email;
- }
-
- @Override
- public boolean isAccountNonExpired() {
-  return true;
- }
-
- @Override
- public boolean isAccountNonLocked() {
-  return true;    }
-
- @Override
- public boolean isCredentialsNonExpired() {
-  return true;    }
-
- @Override
- public boolean isEnabled() {
-  return true;    }
 
 
 }
