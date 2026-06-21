@@ -102,7 +102,13 @@ public class TransactionService {
     }
 
 
-    public TransactionResponseDTO createTransaction(RequestTransactionDTO dto, Account account){
+    public TransactionResponseDTO createTransaction(RequestTransactionDTO dto, String numberAccount){
+        Account account = accountRepository.findByNumberAccount(numberAccount);
+
+        if (accountRepository.existsByNumberAccount(numberAccount)){
+            throw new RuntimeException("account not found");
+        }
+
         switch (dto.type()){
             case DEPOSIT -> {
                 return deposit(dto, account);
