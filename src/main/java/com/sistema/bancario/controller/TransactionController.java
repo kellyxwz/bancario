@@ -20,6 +20,11 @@ public class TransactionController {
         this.service = service;
     }
 
+    @PostMapping("/numberAccount")
+    public ResponseEntity<TransactionResponseDTO> createTransaction(@RequestBody RequestTransactionDTO dto, @PathVariable String numberAccount){
+        TransactionResponseDTO transaction = service.createTransaction(dto, numberAccount);
 
+        return ResponseEntity.ok(transaction);
+    }
 
 }
