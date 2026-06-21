@@ -4,6 +4,7 @@ import com.sistema.bancario.DTO.AuthenticationDTO;
 import com.sistema.bancario.DTO.Response.LoginResponseDTO;
 import com.sistema.bancario.DTO.RegisterDTO;
 import com.sistema.bancario.entities.User;
+import com.sistema.bancario.infra.security.UserDetailsImpl;
 import com.sistema.bancario.repository.UserRepository;
 import com.sistema.bancario.infra.security.TokenService;
 import jakarta.validation.Valid;
@@ -33,7 +34,9 @@ public class AuthenticationController {
         var username = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = authenticationManager.authenticate(username);
 
-        var token = service.generateToken((User) auth.getPrincipal());
+        UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
+
+        var token = service.generateToken(userDetails.user());
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
 
