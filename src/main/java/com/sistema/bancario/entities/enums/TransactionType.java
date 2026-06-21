@@ -2,9 +2,9 @@ package com.sistema.bancario.entities.enums;
 
 public enum TransactionType {
 
-    DEPOSIT("Depósito"),
-    WITHDRAWAL("Saque"),
-    TRANSFER("Transferência");
+    DEPOSIT("deposit"),
+    WITHDRAWAL("withdrawal"),
+    TRANSFER("transfer");
 
     private String transaction;
 

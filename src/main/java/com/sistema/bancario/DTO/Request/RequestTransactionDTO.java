@@ -13,7 +13,9 @@ public record RequestTransactionDTO(
         BigDecimal value,
 
         @NotBlank(message = "The transaction type is required")
-        TransactionType type
+        TransactionType type,
+
+        String destinationAccountNumber
 )
 {
 }

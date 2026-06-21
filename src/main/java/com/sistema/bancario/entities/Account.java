@@ -26,7 +26,7 @@ public class Account implements UserDetails {
     private BigDecimal balance;
 
     @Column(unique = true)
-    private String numeroConta;
+    private String numberAccount;
 
     @OneToOne
     @JoinColumn(name = "user_id")

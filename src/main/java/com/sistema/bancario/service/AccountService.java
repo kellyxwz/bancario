@@ -30,7 +30,7 @@ public class AccountService {
 
         account.setUser(user);
         account.setBalance(BigDecimal.ZERO);
-        account.setNumeroConta(generateAccountNumber());
+        account.setNumberAccount(generateAccountNumber());
 
         Account savedAccount = accountRepository.save(account);
 
@@ -52,7 +52,7 @@ public class AccountService {
                     ThreadLocalRandom.current()
                             .nextLong(100000, 999999)
             );
-        } while (accountRepository.existsByNumeroConta(number));
+        } while (accountRepository.existsByNumberAccount(number));
 
         return number;
     }

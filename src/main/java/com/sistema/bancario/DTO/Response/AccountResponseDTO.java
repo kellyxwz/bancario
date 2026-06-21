@@ -13,8 +13,8 @@ public record AccountResponseDTO(
     public AccountResponseDTO(Account account) {
         this(
                 account.getId(),
-                account.getBalance(), // Atenção: valide se na Entidade o método é getBalance() ou getSaldo()
-                account.getNumeroConta()
+                account.getBalance(),
+                account.getNumberAccount()
         );
     }
 }
