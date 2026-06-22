@@ -15,12 +15,6 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public List<ResponseUserDTO> findAll(){
-        List<ResponseUserDTO> list = repository.findAll();
-
-        return list;
-    }
-
     public ResponseUserDTO findById(long id){
         User user = repository.findById(id).orElseThrow(() -> new RuntimeException(
                 "Usuário não encontrado com o ID: " + id));;
