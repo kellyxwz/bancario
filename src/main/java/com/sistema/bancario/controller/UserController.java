@@ -19,12 +19,6 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    @GetMapping
-    public ResponseEntity<List<ResponseUserDTO>> findAll(){
-        List<ResponseUserDTO> list = service.findAll();
-        return ResponseEntity.ok(list);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<ResponseUserDTO> findById(@PathVariable long id){
         ResponseUserDTO user = service.findById(id);
