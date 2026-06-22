@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.Instant;
 
+@Transactional
 @Service
 public class TransactionService {
 
@@ -28,11 +29,11 @@ public class TransactionService {
         BigDecimal amount = account.getBalance().add(dto.value());
         account.setBalance(amount);
 
-        Transaction transaction = new Transaction();
-        transaction.setValue(dto.value());
-        transaction.setTransactionType(TransactionType.DEPOSIT);
-        transaction.setCreatedAt(Instant.now());
-        transaction.setAccount(account);
+        Transaction transaction = toEntity(
+                dto.value(),
+                TransactionType.DEPOSIT,
+                account
+        );
 
         accountRepository.save(account);
         transactionRepository.save(transaction);
@@ -51,11 +52,11 @@ public class TransactionService {
         BigDecimal amount = account.getBalance().subtract(dto.value());
         account.setBalance(amount);
 
-        Transaction transaction = new Transaction();
-        transaction.setValue(dto.value());
-        transaction.setTransactionType(TransactionType.WITHDRAWAL);
-        transaction.setCreatedAt(Instant.now());
-        transaction.setAccount(account);
+        Transaction transaction = toEntity(
+                dto.value(),
+                TransactionType.WITHDRAWAL,
+                account
+        );
 
         accountRepository.save(account);
         transactionRepository.save(transaction);
@@ -64,7 +65,6 @@ public class TransactionService {
     }
 
 
-    @Transactional
     public TransactionResponseDTO transfer(RequestTransactionDTO dto, Account originAccount, String  destinationAccountNumber){
 
         Account destinationAccount = accountRepository.findByNumberAccount(destinationAccountNumber);
@@ -87,11 +87,11 @@ public class TransactionService {
         BigDecimal destinationBalance = destinationAccount.getBalance().add(dto.value());
         destinationAccount.setBalance(destinationBalance);
 
-        Transaction transaction = new Transaction();
-        transaction.setValue(dto.value());
-        transaction.setTransactionType(TransactionType.TRANSFER);
-        transaction.setCreatedAt(Instant.now());
-        transaction.setAccount(originAccount);
+        Transaction transaction = toEntity(
+                dto.value(),
+                TransactionType.TRANSFER,
+                originAccount
+        );
 
         accountRepository.save(destinationAccount);
         accountRepository.save(originAccount);
@@ -121,6 +121,17 @@ public class TransactionService {
             }
         }
         throw new IllegalArgumentException("invalid type");
+    }
+
+    private Transaction toEntity ( BigDecimal value, TransactionType type, Account account) {
+
+        Transaction transaction = new Transaction();
+        transaction.setValue(value);
+        transaction.setTransactionType(type);
+        transaction.setCreatedAt(Instant.now());
+        transaction.setAccount(account);
+
+        return transaction;
     }
 
 }
