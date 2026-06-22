@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Service
 public class UserService {
@@ -18,14 +16,15 @@ public class UserService {
     private UserRepository repository;
 
     public List<ResponseUserDTO> findAll(){
-        List<User> list = repository.findAll();
-        return list.stream().map(this::toDTO).collect(Collectors.toList());
+        List<ResponseUserDTO> list = repository.findAll();
+
+        return list;
     }
 
     public ResponseUserDTO findById(long id){
         User user = repository.findById(id).orElseThrow(() -> new RuntimeException(
                 "Usuário não encontrado com o ID: " + id));;
-        return toDTO(user);
+        return new ResponseUserDTO(user);
     }
 
         public void deleteById(long id){
@@ -44,7 +43,7 @@ public class UserService {
             User user = toEntity(dto);
             User userSave = repository.save(user);
 
-            return toDTO(userSave);
+            return new ResponseUserDTO(userSave);
 
         } catch (RuntimeException e) {
             throw new RuntimeException("Erro ao inserir o usuário: " + e.getMessage());
@@ -57,7 +56,9 @@ public class UserService {
 
             updateData(user, updateDate);
 
-            return toDTO(user);
+            repository.save(user);
+
+            return new ResponseUserDTO(user);
         }catch (RuntimeException e){
             throw new RuntimeException("erro ao atualizar o usuário"+ e.getMessage());
         }
@@ -82,14 +83,6 @@ public class UserService {
         return user;
     }
 
-    private ResponseUserDTO toDTO(User user){
-        return  new ResponseUserDTO(
-                user.getId(),
-                user.getName(),
-                user.getEmail(),
-                user.getPhone()
-        );
-    }
 
 
 }
