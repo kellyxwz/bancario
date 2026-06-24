@@ -1,4 +1,9 @@
 package com.sistema.bancario.DTO;
 
-public record RegisterDTO(String login, String password) {
+public record RegisterDTO(
+        String name,
+        Long phone,
+        String email,
+        String password
+) {
 }

@@ -32,15 +32,11 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (token != null){
             var login = service.validateToken(token);
 
-            // 1. Busca a entidade pura do banco de dados (User)
             com.sistema.bancario.entities.User userEntity = repository.findByEmail(login);
 
-            // 🔒 2. Blindagem contra nulo
             if (userEntity != null) {
-                // 3. Transforma a entidade no CustomUserDetails para recuperar os métodos do Spring Security
                 UserDetails userDetails = new UserDetailsImpl(userEntity);
 
-                // 4. Agora sim! Usamos userDetails (que tem o getAuthorities()) em vez de userEntity
                 var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
