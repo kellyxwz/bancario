@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public record AccountResponseDTO(
         Long id,
         BigDecimal balance,
-        String numeroConta
+        String numberAccount
 ) {
 
     public AccountResponseDTO(Account account) {
