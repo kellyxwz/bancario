@@ -105,7 +105,7 @@ public class TransactionService {
     public TransactionResponseDTO createTransaction(RequestTransactionDTO dto, String numberAccount){
         Account account = accountRepository.findByNumberAccount(numberAccount);
 
-        if (accountRepository.existsByNumberAccount(numberAccount)){
+        if (!accountRepository.existsByNumberAccount(numberAccount)){
             throw new RuntimeException("account not found");
         }
 
