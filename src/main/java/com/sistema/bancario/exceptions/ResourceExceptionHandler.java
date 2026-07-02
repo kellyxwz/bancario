@@ -12,7 +12,7 @@ import java.time.Instant;
 public class ResourceExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<StandError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request){
+    public ResponseEntity<StandError> resourceNotFound (ResourceNotFoundException e, HttpServletRequest request){
         String erro = "Recurso não encontrado";
         HttpStatus status = HttpStatus.NOT_FOUND;
 
