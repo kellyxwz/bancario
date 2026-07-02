@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -13,11 +13,11 @@ import java.time.LocalDate;
 public class StandError {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/DD/mm'T'HH:mm:ss'z'", timezone = "GMT")
-    private LocalDate timeStamp;
-    private String message;
+    private Instant timeStamp;
     private Integer status;
     private String error;
-
+    private String message;
+    private String path;
 
 
 }
