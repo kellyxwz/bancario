@@ -3,11 +3,11 @@ package com.sistema.bancario.service;
 import com.sistema.bancario.DTO.Request.RequestUserDTO;
 import com.sistema.bancario.DTO.Response.ResponseUserDTO;
 import com.sistema.bancario.entities.User;
+import com.sistema.bancario.exceptions.ResourceNotFoundException;
 import com.sistema.bancario.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class UserService {
@@ -16,20 +16,16 @@ public class UserService {
     private UserRepository repository;
 
     public ResponseUserDTO findById(long id){
-        User user = repository.findById(id).orElseThrow(() -> new RuntimeException(
-                "Usuário não encontrado com o ID: " + id));;
+        User user = repository.findById(id).orElseThrow(()
+                -> new ResourceNotFoundException(id));
         return new ResponseUserDTO(user);
     }
 
         public void deleteById(long id){
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Não é possível deletar. Usuário não encontrado com o ID: " + id);
+            throw new ResourceNotFoundException(id);
         }
-        try {
-            repository.deleteById(id);
-        }catch (RuntimeException e ){
-            throw new RuntimeException("Erro ao deletar usuário: " + e.getMessage());
-        }
+        repository.deleteById(id);
     }
 
     public ResponseUserDTO insert(RequestUserDTO dto) {
