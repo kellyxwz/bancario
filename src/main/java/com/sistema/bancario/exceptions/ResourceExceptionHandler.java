@@ -23,8 +23,26 @@ public class ResourceExceptionHandler {
                 e.getMessage(),
                 request.getRequestURI()
         );
-
         return ResponseEntity.status(status).body(err);
     }
+
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<StandError> database (DatabaseException e, HttpServletRequest request){
+        String erro = "Erro de banco de dados";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        StandError err = new StandError(
+                Instant.now(),
+                status.value(),
+                erro,
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(status).body(err);
+    }
+
+
+
 
 }
