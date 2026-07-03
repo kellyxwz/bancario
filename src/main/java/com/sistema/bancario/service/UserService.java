@@ -3,9 +3,11 @@ package com.sistema.bancario.service;
 import com.sistema.bancario.DTO.Request.RequestUserDTO;
 import com.sistema.bancario.DTO.Response.ResponseUserDTO;
 import com.sistema.bancario.entities.User;
+import com.sistema.bancario.exceptions.DatabaseException;
 import com.sistema.bancario.exceptions.ResourceNotFoundException;
 import com.sistema.bancario.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 
@@ -21,36 +23,44 @@ public class UserService {
         return new ResponseUserDTO(user);
     }
 
-        public void deleteById(long id){
+    public void deleteById(long id){
         if (!repository.existsById(id)) {
             throw new ResourceNotFoundException(id);
         }
-        repository.deleteById(id);
+
+        try {
+            repository.deleteById(id);
+
+        }catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Não foi possivel deletar usuário");
+        }
     }
 
     public ResponseUserDTO insert(RequestUserDTO dto) {
-        try {
             User user = toEntity(dto);
+
+        try {
             User userSave = repository.save(user);
 
             return new ResponseUserDTO(userSave);
 
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Erro ao inserir o usuário: " + e.getMessage());
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Erro ao inserir o usuário: ");
         }
     }
 
     public ResponseUserDTO update(long id, RequestUserDTO updateDate){
-        try {
-            User user = repository.findById(id).orElseThrow(() -> new RuntimeException("usuário não encontrado"));
+            User user = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 
             updateData(user, updateDate);
 
+        try {
             repository.save(user);
 
             return new ResponseUserDTO(user);
-        }catch (RuntimeException e){
-            throw new RuntimeException("erro ao atualizar o usuário"+ e.getMessage());
+
+        }catch (DataIntegrityViolationException e){
+            throw new DatabaseException("erro ao atualizar o usuário");
         }
     }
 
