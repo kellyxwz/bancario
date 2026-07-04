@@ -14,10 +14,10 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class AccountService {
 
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
 
     public AccountService(AccountRepository accountRepository, UserRepository userRepository) {
         this.accountRepository = accountRepository;
