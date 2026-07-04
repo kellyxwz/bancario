@@ -6,7 +6,6 @@ import com.sistema.bancario.entities.User;
 import com.sistema.bancario.exceptions.DatabaseException;
 import com.sistema.bancario.exceptions.ResourceNotFoundException;
 import com.sistema.bancario.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository repository;
+    private final UserRepository repository;
+
+    public UserService(UserRepository repository) {
+        this.repository = repository;
+    }
 
     public ResponseUserDTO findById(long id){
         User user = repository.findById(id).orElseThrow(()
@@ -40,12 +42,12 @@ public class UserService {
             User user = toEntity(dto);
 
         try {
-            User userSave = repository.save(user);
+            user = repository.save(user);
 
-            return new ResponseUserDTO(userSave);
+            return new ResponseUserDTO(user);
 
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("Erro ao inserir o usuário: ");
+            throw new DatabaseException("Não foi possível inserir o usuário ");
         }
     }
 
