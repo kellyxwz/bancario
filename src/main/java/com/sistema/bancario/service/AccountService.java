@@ -3,9 +3,11 @@ package com.sistema.bancario.service;
 import com.sistema.bancario.DTO.Response.AccountResponseDTO;
 import com.sistema.bancario.entities.Account;
 import com.sistema.bancario.entities.User;
+import com.sistema.bancario.exceptions.DatabaseException;
+import com.sistema.bancario.exceptions.ResourceNotFoundException;
 import com.sistema.bancario.repository.AccountRepository;
 import com.sistema.bancario.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,7 +18,6 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
 
-
     private final UserRepository userRepository;
 
     public AccountService(AccountRepository accountRepository, UserRepository userRepository) {
@@ -25,22 +26,27 @@ public class AccountService {
     }
 
     public AccountResponseDTO createAccount (long id){
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("usuário não encontrado"));
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         Account account = new Account();
 
         account.setUser(user);
         account.setBalance(BigDecimal.ZERO);
         account.setNumberAccount(generateAccountNumber());
 
-        Account savedAccount = accountRepository.save(account);
+        try {
+            Account savedAccount = accountRepository.save(account);
+            return new AccountResponseDTO(savedAccount);
 
-        return new AccountResponseDTO(savedAccount);
+        }catch (DataIntegrityViolationException e){
+            throw new DatabaseException("Erro ao criar conta.");
+        }
+
     }
 
     public AccountResponseDTO findById(long id){
-        Account account = accountRepository.findById(id).orElseThrow(()-> new RuntimeException("conta não encontrado"));
+        Account account = accountRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 
-        return new AccountResponseDTO(account );
+        return new AccountResponseDTO(account);
     }
 
     private String generateAccountNumber() {
